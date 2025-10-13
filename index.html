@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZulCode • Jornada • HTML Básico</title>
+  <style>
+/* Centraliza toda a seção do módulo */
+.module {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(100vw - 390px); /* 70px sidebar + 320px painel direito */
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* Centraliza e estiliza o título */
+.titulo-modulo {
+  font-size: 2.4rem;
+  color: #fff;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+
+/* Container da trilha centralizado */
+/* Centraliza a trilha dentro da área útil (entre sidebar e painel direito) */
+.trilha-container {
+  display: flex;
+  justify-content: center;
+  width: calc(100vw - 390px); /* 70px sidebar + 320px painel direito */
+  margin: 0 auto;
+}
+
+.trilha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 220px;
+}
+
+
+/* Nó */
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hex {
+  width: 100px;
+  height: 100px;
+  background: #1e2126;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.node-btn {
+  margin-top: 12px;
+  background: #1183ff;
+  color: #fff;
+  padding: 0.6rem 1.8rem;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.node-btn:hover {
+  background: #0a6ad4;
+  transform: translateY(-4px);
+}
+
+/* Conector entre nós */
+.linker {
+  width: 4px;
+  height: 50px;
+  background: #3b3f45;
+}
+
+/* Pontilhado antes do troféu */
+.dots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background: #3b3f45;
+  border-radius: 50%;
+}
+
+/* Nó do troféu */
+.node--trophy .hex {
+  background: #22272e;
+}
+
+.node-btn--trophy {
+  font-size: 1.8rem;
+  padding: 1rem;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  background: #1183ff;
+}
+
+
+
+    /* Centraliza absolutamente tudo dentro do roadmap */
+.path, .road, .node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* garante que o botão fique exatamente no centro do hexágono */
+.node button {
+  margin: 0 auto;
+  display: inline-block;
+  transform: translateX(0);
+}
+
+/* opcional: centraliza o hexágono também */
+.node img, 
+.node svg, 
+.node .hexagono {
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+
+    /* Centraliza absolutamente tudo dentro do roadmap */
+.path, .road, .node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* garante que o botão fique exatamente no centro do hexágono */
+.node button {
+  margin: 0 auto;
+  display: inline-block;
+  transform: translateX(0);
+}
+
+/* opcional: centraliza o hexágono também */
+.node img, 
+.node svg, 
+.node .hexagono {
+  display: block;
+  margin: 0 auto;
+}
+
+    /* ===== Área principal ===== */
+
+.main {
+  padding: 30px 50px;
+  margin-left: 70px;
+  margin-right: 340px; /* <-- adiciona espaço lateral para não sobrepor a direita */
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+
+
+}
+
+/* ===== Painel direito ===== */
+.right {
+  padding: 30px;
+  background: #0b0f15;
+  border-left: 1px solid var(--borda);
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 320px;
+  overflow-y: auto;
+}
+
+  :root {
+    --azul: #1183ff;
+    --azul-claro: #1a96ff;
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --texto: #e6edf3;
+    --muted: #8b949e;
+    --borda: #30363d;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--texto);
+    display: flex;
+    min-height: 100vh;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .app {
+    display: grid;
+    grid-template-columns: 70px 1fr 320px;
+    width: 100%;
+  }
+
+  /* ===== Sidebar ===== */
+  .sidebar {
+    background: #0b0f15;
+    border-right: 1px solid var(--borda);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  .brand {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--azul);
+  }
+
+  .nav-btn {
+    font-size: 1.6rem;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    border-radius: 12px;
+  }
+
+  .nav-btn:hover {
+    background: var(--azul);
+    transform: translateY(-4px);
+  }
+
+  .nav-btn.active {
+    background: var(--azul);
+  }
+
+  /* ===== Área principal ===== */
+  .main {
+    padding: 30px 50px;
+    margin-left: 70px;
+  }
+
+  .crumb {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  .crumb h1 {
+    font-size: 1.4rem;
+    margin-left: 10px;
+  }
+
+  .module h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  /* ===== Roadmap ===== */
+  /* ===== Roadmap Centralizado ===== */
+.path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  position: relative;
+}
+
+.road {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 220px; /* controla a largura do caminho */
+  margin: 0 auto;   /* <-- centraliza no meio da seção */
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+
+  .node .hex {
+    width: 90px;
+    height: 90px;
+    background: var(--bg-card);
+    border: 2px solid var(--borda);
+    clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+    transition: transform 0.3s, background 0.3s, border-color 0.3s;
+  }
+
+  .node:hover .hex {
+    background: var(--azul);
+    border-color: var(--azul-claro);
+    transform: translateY(-6px);
+  }
+
+  .node-btn {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    background: var(--azul);
+    padding: 8px 20px;
+    border-radius: 20px;
+    display: inline-block;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .node-btn:hover {
+    background: var(--azul-claro);
+    transform: translateY(-4px);
+  }
+
+  .linker {
+    width: 4px;
+    height: 40px;
+    background: var(--borda);
+  }
+
+  .dots {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    background: var(--borda);
+    border-radius: 50%;
+  }
+
+  .node--trophy .hex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+  }
+
+  /* ===== Painel direito ===== */
+  .right {
+    padding: 30px;
+    background: #0b0f15;
+    border-left: 1px solid var(--borda);
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .btn-pro {
+    display: inline-block;
+    background: var(--azul);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .btn-pro:hover {
+    background: var(--azul-claro);
+    transform: translateY(-4px);
+  }
+
+  /* ===== Modal ===== */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .modal[hidden] {
+    display: none;
+  }
+
+  .modal-box {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.4rem;
+    float: right;
+    cursor: pointer;
+  }
+
+  .modal-cta {
+    display: inline-block;
+    margin-top: 20px;
+    background: var(--azul);
+    padding: 10px 30px;
+    border-radius: 30px;
+    font-weight: 700;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .modal-cta:hover {
+    background: var(--azul-claro);
+    transform: translateY(-4px);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+</style>
+
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<script>
+  // Abrir modal ao clicar em qualquer nó
+  document.querySelectorAll('.node').forEach(node => {
+    node.addEventListener('click', () => {
+      const modal = document.getElementById('miniModal');
+      const title = node.getAttribute('data-title');
+      modal.querySelector('#modalTitle').textContent = title;
+      modal.removeAttribute('hidden');
+    });
+  });
+
+  // Fechar modal
+  const modal = document.getElementById('miniModal');
+  modal.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal') || e.target.classList.contains('modal-close')) {
+      modal.setAttribute('hidden', '');
+    }
+  });
+
+  // Fechar com ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') modal.setAttribute('hidden', '');
+  });
+</script>
+
+<body>
+
+  <main class="app">
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar" aria-label="Navegação lateral">
+      <div class="brand">Z</div>
+      <a class="nav-btn active" href="#" title="Jornada" aria-current="page">🛤️</a>
+      <a class="nav-btn" href="#" title="Desafio Diário">🧩</a>
+      <a class="nav-btn" href="#" title="Metas">🎯</a>
+      <a class="nav-btn" href="#" title="Líderes">🏆</a>
+      <a class="nav-btn" href="#" title="Loja">🛒</a>
+      <a class="nav-btn" href="#" title="Perfil">👤</a>
+      <a class="nav-btn" href="#" title="Mais">⋯</a>
+    </aside>
+
+    <!-- ===== Área principal ===== -->
+   <section class="module">
+  <h2 class="titulo-modulo">HTML Básico</h2>
+
+  <div class="trilha-container">
+    <div class="trilha">
+
+      <!-- Nó 1 -->
+      <div class="node" data-title="O que é HTML?" data-link="aula.html">
+        <div class="hex"></div>
+        <button class="node-btn">COMEÇAR</button>
+      </div>
+      <div class="linker"></div>
+
+      <!-- Nó 2 -->
+      <div class="node" data-title="Tags e Estrutura" data-link="aula.html">
+        <div class="hex"></div>
+        <button class="node-btn">CONTINUAR</button>
+      </div>
+      <div class="linker"></div>
+
+      <!-- Nó 3 -->
+      <div class="node" data-title="Atributos e Links" data-link="aula.html">
+        <div class="hex"></div>
+        <button class="node-btn">PRATICAR</button>
+      </div>
+      <div class="linker"></div>
+
+      <!-- Nó 4 -->
+      <div class="node" data-title="Imagens e Listas" data-link="aula.html">
+        <div class="hex"></div>
+        <button class="node-btn">EXERCÍCIOS</button>
+      </div>
+
+      <!-- Pontilhado -->
+      <div class="dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+
+      <!-- Troféu -->
+      <div class="node node--trophy" data-title="Conquista do Capítulo" data-link="aula.html">
+        <div class="hex"></div>
+        <button class="node-btn node-btn--trophy">🏆</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <!-- ===== Painel direito ===== -->
+    <aside class="right">
+      <div class="card">
+        <h3>Obter mais</h3>
+        <p class="muted">Desbloqueie experiência de aprendizado aprimorada e ilimitada!</p>
+        <a class="btn btn-pro" href="#">SER PRO</a>
+      </div>
+
+      <div class="card">
+        <h3>Tabela de Líderes <a href="#" class="link-light">Ver</a></h3>
+        <div class="rows">
+          <div class="row"><span class="pill">🔒</span> Alcançe 100 XP para desbloquear <b>Ver</b></div>
+          <div class="progress"><i style="width:0%"></i></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Metas Diárias <a href="#" class="link-light">Ver</a></h3>
+        <div class="rows">
+          <div class="row">Completar 4 exercícios <b>0/4</b></div>
+          <div class="progress"><i style="width:6%"></i></div>
+          <div class="row">Resolver 3 desafios na primeira tentativa <b>0/3</b></div>
+          <div class="progress"><i style="width:0%"></i></div>
+          <div class="row">Ganhar 95 XP <b>0/95</b></div>
+          <div class="progress"><i style="width:0%"></i></div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ===== Modal pequeno (para o troféu e nós) ===== -->
+  <div class="modal" id="miniModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal-box">
+      <button class="modal-close" aria-label="Fechar">✕</button>
+      <h4 id="modalTitle">Aula</h4>
+      <p class="modal-sub">Pronto para começar?</p>
+      <a href="aula.html" class="btn btn-primary modal-cta">COMEÇAR</a>
+    </div>
+  </div>
+
+  <!-- ===== (PARTE 2 trará o <style> e o <script>) ===== -->
+</body>
+</html>
