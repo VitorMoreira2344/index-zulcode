@@ -1,594 +1,1659 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ZulCode • Jornada • HTML Básico</title>
-  <style>
-/* Centraliza toda a seção do módulo */
-.module {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: calc(100vw - 390px); /* 70px sidebar + 320px painel direito */
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-/* Centraliza e estiliza o título */
-.titulo-modulo {
-  font-size: 2.4rem;
-  color: #fff;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-
-/* Container da trilha centralizado */
-/* Centraliza a trilha dentro da área útil (entre sidebar e painel direito) */
-.trilha-container {
-  display: flex;
-  justify-content: center;
-  width: calc(100vw - 390px); /* 70px sidebar + 320px painel direito */
-  margin: 0 auto;
-}
-
-.trilha {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
-  width: 220px;
-}
-
-
-/* Nó */
-.node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.hex {
-  width: 100px;
-  height: 100px;
-  background: #1e2126;
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-.node-btn {
-  margin-top: 12px;
-  background: #1183ff;
-  color: #fff;
-  padding: 0.6rem 1.8rem;
-  border: none;
-  border-radius: 30px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-}
-
-.node-btn:hover {
-  background: #0a6ad4;
-  transform: translateY(-4px);
-}
-
-/* Conector entre nós */
-.linker {
-  width: 4px;
-  height: 50px;
-  background: #3b3f45;
-}
-
-/* Pontilhado antes do troféu */
-.dots {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  background: #3b3f45;
-  border-radius: 50%;
-}
-
-/* Nó do troféu */
-.node--trophy .hex {
-  background: #22272e;
-}
-
-.node-btn--trophy {
-  font-size: 1.8rem;
-  padding: 1rem;
-  border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  background: #1183ff;
-}
-
-
-
-    /* Centraliza absolutamente tudo dentro do roadmap */
-.path, .road, .node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* garante que o botão fique exatamente no centro do hexágono */
-.node button {
-  margin: 0 auto;
-  display: inline-block;
-  transform: translateX(0);
-}
-
-/* opcional: centraliza o hexágono também */
-.node img, 
-.node svg, 
-.node .hexagono {
-  display: block;
-  margin: 0 auto;
-}
-
-
-
-
-    /* Centraliza absolutamente tudo dentro do roadmap */
-.path, .road, .node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* garante que o botão fique exatamente no centro do hexágono */
-.node button {
-  margin: 0 auto;
-  display: inline-block;
-  transform: translateX(0);
-}
-
-/* opcional: centraliza o hexágono também */
-.node img, 
-.node svg, 
-.node .hexagono {
-  display: block;
-  margin: 0 auto;
-}
-
-    /* ===== Área principal ===== */
-
-.main {
-  padding: 30px 50px;
-  margin-left: 70px;
-  margin-right: 340px; /* <-- adiciona espaço lateral para não sobrepor a direita */
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-
-
-}
-
-/* ===== Painel direito ===== */
-.right {
-  padding: 30px;
-  background: #0b0f15;
-  border-left: 1px solid var(--borda);
-  position: fixed;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 320px;
-  overflow-y: auto;
-}
-
-  :root {
-    --azul: #1183ff;
-    --azul-claro: #1a96ff;
-    --bg: #0d1117;
-    --bg-card: #161b22;
-    --texto: #e6edf3;
-    --muted: #8b949e;
-    --borda: #30363d;
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Nunito', sans-serif;
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--texto);
-    display: flex;
-    min-height: 100vh;
-  }
-
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .app {
-    display: grid;
-    grid-template-columns: 70px 1fr 320px;
-    width: 100%;
-  }
-
-  /* ===== Sidebar ===== */
-  .sidebar {
-    background: #0b0f15;
-    border-right: 1px solid var(--borda);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
-    gap: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-  }
-
-  .brand {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--azul);
-  }
-
-  .nav-btn {
-    font-size: 1.6rem;
-    padding: 10px;
-    cursor: pointer;
-    transition: transform 0.2s, background 0.3s;
-    border-radius: 12px;
-  }
-
-  .nav-btn:hover {
-    background: var(--azul);
-    transform: translateY(-4px);
-  }
-
-  .nav-btn.active {
-    background: var(--azul);
-  }
-
-  /* ===== Área principal ===== */
-  .main {
-    padding: 30px 50px;
-    margin-left: 70px;
-  }
-
-  .crumb {
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-
-  .crumb h1 {
-    font-size: 1.4rem;
-    margin-left: 10px;
-  }
-
-  .module h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-
-  /* ===== Roadmap ===== */
-  /* ===== Roadmap Centralizado ===== */
-.path {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  position: relative;
-}
-
-.road {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
-  width: 100%;
-  max-width: 220px; /* controla a largura do caminho */
-  margin: 0 auto;   /* <-- centraliza no meio da seção */
-}
-
-.node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-
-  .node .hex {
-    width: 90px;
-    height: 90px;
-    background: var(--bg-card);
-    border: 2px solid var(--borda);
-    clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-    transition: transform 0.3s, background 0.3s, border-color 0.3s;
-  }
-
-  .node:hover .hex {
-    background: var(--azul);
-    border-color: var(--azul-claro);
-    transform: translateY(-6px);
-  }
-
-  .node-btn {
-    margin-top: 10px;
-    font-size: 0.9rem;
-    background: var(--azul);
-    padding: 8px 20px;
-    border-radius: 20px;
-    display: inline-block;
-    transition: background 0.3s, transform 0.3s;
-  }
-
-  .node-btn:hover {
-    background: var(--azul-claro);
-    transform: translateY(-4px);
-  }
-
-  .linker {
-    width: 4px;
-    height: 40px;
-    background: var(--borda);
-  }
-
-  .dots {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 10px 0;
-  }
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    background: var(--borda);
-    border-radius: 50%;
-  }
-
-  .node--trophy .hex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-  }
-
-  /* ===== Painel direito ===== */
-  .right {
-    padding: 30px;
-    background: #0b0f15;
-    border-left: 1px solid var(--borda);
-  }
-
-  .card {
-    background: var(--bg-card);
-    border: 1px solid var(--borda);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-
-  .btn-pro {
-    display: inline-block;
-    background: var(--azul);
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    margin-top: 10px;
-    transition: background 0.3s, transform 0.3s;
-  }
-
-  .btn-pro:hover {
-    background: var(--azul-claro);
-    transform: translateY(-4px);
-  }
-
-  /* ===== Modal ===== */
-  .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-  }
-
-  .modal[hidden] {
-    display: none;
-  }
-
-  .modal-box {
-    background: var(--bg-card);
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    width: 300px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    animation: fadeIn 0.3s ease;
-  }
-
-  .modal-close {
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-size: 1.4rem;
-    float: right;
-    cursor: pointer;
-  }
-
-  .modal-cta {
-    display: inline-block;
-    margin-top: 20px;
-    background: var(--azul);
-    padding: 10px 30px;
-    border-radius: 30px;
-    font-weight: 700;
-    transition: background 0.3s, transform 0.3s;
-  }
-
-  .modal-cta:hover {
-    background: var(--azul-claro);
-    transform: translateY(-4px);
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-</style>
-
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
-</head>
-<script>
-  // Abrir modal ao clicar em qualquer nó
-  document.querySelectorAll('.node').forEach(node => {
-    node.addEventListener('click', () => {
-      const modal = document.getElementById('miniModal');
-      const title = node.getAttribute('data-title');
-      modal.querySelector('#modalTitle').textContent = title;
-      modal.removeAttribute('hidden');
-    });
-  });
-
-  // Fechar modal
-  const modal = document.getElementById('miniModal');
-  modal.addEventListener('click', (e) => {
-    if (e.target.classList.contains('modal') || e.target.classList.contains('modal-close')) {
-      modal.setAttribute('hidden', '');
-    }
-  });
-
-  // Fechar com ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') modal.setAttribute('hidden', '');
-  });
-</script>
-
-<body>
-
-  <main class="app">
-    <!-- ===== Sidebar ===== -->
-    <aside class="sidebar" aria-label="Navegação lateral">
-      <div class="brand">Z</div>
-      <a class="nav-btn active" href="#" title="Jornada" aria-current="page">🛤️</a>
-      <a class="nav-btn" href="#" title="Desafio Diário">🧩</a>
-      <a class="nav-btn" href="#" title="Metas">🎯</a>
-      <a class="nav-btn" href="#" title="Líderes">🏆</a>
-      <a class="nav-btn" href="#" title="Loja">🛒</a>
-      <a class="nav-btn" href="#" title="Perfil">👤</a>
-      <a class="nav-btn" href="#" title="Mais">⋯</a>
-    </aside>
-
-    <!-- ===== Área principal ===== -->
-   <section class="module">
-  <h2 class="titulo-modulo">HTML Básico</h2>
-
-  <div class="trilha-container">
-    <div class="trilha">
-
-      <!-- Nó 1 -->
-      <div class="node" data-title="O que é HTML?" data-link="aula.html">
-        <div class="hex"></div>
-        <button class="node-btn">COMEÇAR</button>
-      </div>
-      <div class="linker"></div>
-
-      <!-- Nó 2 -->
-      <div class="node" data-title="Tags e Estrutura" data-link="aula.html">
-        <div class="hex"></div>
-        <button class="node-btn">CONTINUAR</button>
-      </div>
-      <div class="linker"></div>
-
-      <!-- Nó 3 -->
-      <div class="node" data-title="Atributos e Links" data-link="aula.html">
-        <div class="hex"></div>
-        <button class="node-btn">PRATICAR</button>
-      </div>
-      <div class="linker"></div>
-
-      <!-- Nó 4 -->
-      <div class="node" data-title="Imagens e Listas" data-link="aula.html">
-        <div class="hex"></div>
-        <button class="node-btn">EXERCÍCIOS</button>
-      </div>
-
-      <!-- Pontilhado -->
-      <div class="dots">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-
-      <!-- Troféu -->
-      <div class="node node--trophy" data-title="Conquista do Capítulo" data-link="aula.html">
-        <div class="hex"></div>
-        <button class="node-btn node-btn--trophy">🏆</button>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-    <!-- ===== Painel direito ===== -->
-    <aside class="right">
-      <div class="card">
-        <h3>Obter mais</h3>
-        <p class="muted">Desbloqueie experiência de aprendizado aprimorada e ilimitada!</p>
-        <a class="btn btn-pro" href="#">SER PRO</a>
-      </div>
-
-      <div class="card">
-        <h3>Tabela de Líderes <a href="#" class="link-light">Ver</a></h3>
-        <div class="rows">
-          <div class="row"><span class="pill">🔒</span> Alcançe 100 XP para desbloquear <b>Ver</b></div>
-          <div class="progress"><i style="width:0%"></i></div>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ZulCode • Jornada • HTML Básico (Corrigido - Layout)</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --azul: #1183ff;
+        --azul-claro: #1a96ff;
+        --bg: #0d1117;
+        --bg-card: #161b22;
+        --texto: #e6edf3;
+        --muted: #8b949e;
+        --borda: #30363d;
+        --accent-3d-top: rgba(255, 255, 255, 0.06);
+        --accent-3d-bottom: rgba(0, 0, 0, 0.45);
+        --sidebar-w: 70px;
+        --right-w: 320px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        background: var(--bg);
+        color: var(--texto);
+        font-family: "Nunito", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* App layout: use grid to reserve columns, but main uses calculated width so it never gets squeezed */
+      .app {
+        min-height: 100vh;
+        width: 90%;
+        position: relative;
+        margin-left: 100px;
+        /* not strictly necessary to set grid here because sidebar/right are fixed,
+       but we keep it for semantic layout */
+        display: block;
+      }
+
+      /* Sidebar (fixed) */
+      .sidebar {
+        background: #0b0f15;
+        border-right: 1px solid var(--borda);
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: var(--sidebar-w);
+        padding: 20px 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
+        z-index: 60;
+        transition: width 0.3s ease, left 0.3s ease;
+      }
+
+      /* Brand com duas versões */
+      .brand {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--azul);
+        position: relative;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .brand-full {
+        display: none;
+        font-size: 1.7rem;
+        white-space: nowrap;
+      }
+
+      .brand-short {
+        display: block;
+        font-size: 2rem;
+      }
+
+      .nav-btn {
+        font-size: 1.6rem;
+        padding: 8px;
+        border-radius: 12px;
+        cursor: pointer;
+        color: var(--texto);
+        background: transparent;
+        border: none;
+        transition: all 0.2s ease;
+      }
+      .nav-btn.active {
+        background: var(--azul);
+        color: white;
+        transform: translateY(-3px);
+      }
+
+      .nav-btn:hover {
+        background: rgba(17, 131, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Botão hamburger para mobile */
+      .mobile-toggle {
+        display: none;
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 110;
+        background: var(--azul);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        width: 44px;
+        height: 44px;
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+
+      /* Right panel (fixed) */
+      .right {
+        background: #0b0f15;
+        border-left: 1px solid var(--borda);
+        padding: 24px;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: var(--right-w);
+        overflow: auto;
+        z-index: 50;
+      }
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--borda);
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      .btn-pro {
+        background: var(--azul);
+        color: white;
+        padding: 8px 14px;
+        border-radius: 10px;
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      /* MAIN: use calc widths so it expands/shrinks cleanly */
+      main.main {
+        position: relative;
+        /* main occupies the remaining width between sidebar and right */
+        width: calc(100% - var(--sidebar-w) - var(--right-w));
+        margin-left: var(--sidebar-w);
+        margin-right: var(--right-w);
+        padding: 28px 40px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: width 0.18s ease, margin 0.18s ease, padding 0.18s ease;
+      }
+
+      /* Banner inside main */
+      .banner {
+        width: min(980px, 100%);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(180deg, var(--azul), var(--azul-claro));
+        color: white;
+        padding: 12px 18px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(17, 131, 255, 0.12);
+        margin-bottom: 20px;
+        gap: 12px;
+      }
+      .banner-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .banner-info .section {
+        font-weight: 700;
+        font-size: 0.9rem;
+        opacity: 0.95;
+      }
+      .banner-info .title {
+        font-weight: 800;
+        font-size: 1.15rem;
+        letter-spacing: 0.2px;
+      }
+      .banner-icon {
+        font-size: 1.4rem;
+        opacity: 0.95;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .module {
+        width: min(980px, 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 30px;
+      }
+      .titulo-modulo {
+        font-size: 2.2rem;
+        color: var(--texto);
+        text-align: center;
+      }
+
+      /* Roadmap */
+      .roadmap-wrap {
+        width: min(980px, 100%);
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px;
+      }
+      .trilha {
+        width: 240px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        position: relative;
+      }
+      .connector {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 50px;
+        bottom: 140px;
+        width: 6px;
+        background: linear-gradient(
+          to bottom,
+          transparent 0%,
+          var(--borda) 20%,
+          var(--borda) 80%,
+          transparent 100%
+        );
+        border-radius: 6px;
+        z-index: 0;
+      }
+      .node {
+        position: relative;
+        z-index: 2;
+        width: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        pointer-events: auto;
+      }
+      .hex-wrap {
+        width: 110px;
+        height: 110px;
+        position: relative;
+        perspective: 700px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hex {
+        width: 88px;
+        height: 88px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.32s cubic-bezier(0.2, 0.9, 0.2, 1),
+          box-shadow 0.25s;
+        cursor: pointer;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        outline: none;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        background: linear-gradient(
+          180deg,
+          var(--bg-card),
+          rgba(15, 18, 22, 1)
+        );
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55),
+          0 2px 6px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+      }
+      .hex::before,
+      .hex::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+        border-radius: 6px;
+      }
+      .hex::before {
+        transform: translateZ(12px);
+        background: linear-gradient(180deg, var(--accent-3d-top), transparent);
+        mix-blend-mode: overlay;
+      }
+      .hex::after {
+        transform: translateZ(-8px) rotateX(12deg);
+        background: linear-gradient(
+          180deg,
+          transparent,
+          var(--accent-3d-bottom)
+        );
+        opacity: 0.7;
+      }
+      .node-btn {
+        background: var(--azul);
+        color: white;
+        font-weight: 700;
+        border-radius: 22px;
+        padding: 8px 14px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 8px 16px rgba(17, 131, 255, 0.12);
+        transition: transform 0.22s, background 0.22s;
+        font-size: 0.9rem;
+      }
+      .node-btn:active {
+        transform: translateY(2px) scale(0.995);
+      }
+      .hex:active {
+        transform: translateY(6px) rotateX(6deg) scale(0.98);
+      }
+      .progress-ring {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        top: -5px;
+        left: -5px;
+        transform: rotate(-90deg);
+        pointer-events: none;
+      }
+      .progress-ring circle.track {
+        stroke: rgba(255, 255, 255, 0.06);
+        stroke-width: 8;
+        fill: none;
+      }
+      .progress-ring circle.progress {
+        stroke: var(--azul);
+        stroke-width: 8;
+        fill: none;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 0.45s ease;
+      }
+
+      /* offsets for "bagunçado" */
+      .trilha .node:nth-child(1) {
+        transform: translateX(-34px) rotate(-6deg);
+      }
+      .trilha .node:nth-child(2) {
+        transform: translateX(18px) rotate(8deg);
+      }
+      .trilha .node:nth-child(3) {
+        transform: translateX(-12px) rotate(-4deg);
+      }
+      .trilha .node:nth-child(4) {
+        transform: translateX(28px) rotate(6deg);
+      }
+
+      .node--trophy .hex {
+        background: linear-gradient(
+          180deg,
+          rgba(17, 131, 255, 0.12),
+          rgba(10, 30, 60, 0.8)
+        );
+      }
+      .node--trophy .node-btn {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        padding: 0;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .tooltip {
+        position: absolute;
+        bottom: 120%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--bg-card);
+        border: 1px solid var(--borda);
+        color: var(--texto);
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.18s;
+      }
+      .node:focus-within .tooltip,
+      .node:hover .tooltip {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 10, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 120;
+      }
+      .modal[hidden] {
+        display: none;
+      }
+      .modal-box {
+        background: var(--bg-card);
+        padding: 20px 22px;
+        border-radius: 12px;
+        border: 1px solid var(--borda);
+        width: 320px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(2, 6, 10, 0.6);
+      }
+      .modal-close {
+        position: absolute;
+        right: 12px;
+        top: 10px;
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 80px;
+        background: var(--bg-card);
+        color: var(--texto);
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--borda);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s, transform 0.25s;
+        z-index: 130;
+      }
+      .toast.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(-6px);
+      }
+
+      .actions-center {
+        width: min(980px, 100%);
+        display: grid;
+        grid-template-columns: repeat(4, 64px);
+        gap: 30px;
+        justify-content: center;
+        margin-bottom: 40px;
+      }
+      .btn-round {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: none;
+        background: var(--azul);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 8px 18px rgba(17, 131, 255, 0.12);
+        transition: all 0.3s ease;
+      }
+
+      .btn-round:hover {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      /* Footer - Modificado para não ser fixo por padrão */
+      footer {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        max-width: 400px;
+        width: 95%;
+        display: flex;
+        gap: 6px;
+        z-index: 100;
+        margin: 20px auto;
+        padding: 0 12px;
+      }
+      footer button {
+        flex: 1;
+        height: 48px;
+        border-radius: 8px;
+        border: none;
+        background: #12252f;
+        color: var(--azul);
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      footer button.active,
+      footer button:hover {
+        background: var(--azul);
+        color: white;
+      }
+
+      /* Efeitos hover melhorados */
+      .hex {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .hex:hover {
+        transform: translateY(-8px) scale(1.05);
+        box-shadow: 0 15px 30px rgba(17, 131, 255, 0.2);
+      }
+
+      /* ------------ RESPONSIVITY ------------- */
+
+      /* Mostrar texto completo em telas grandes */
+      @media (min-width: 1200px) {
+        .sidebar {
+          width: 180px;
+          align-items: flex-start;
+          padding: 20px 16px;
+        }
+
+        .brand {
+          justify-content: flex-start;
+          width: 100%;
+          padding-left: 8px;
+        }
+
+        .brand-full {
+          display: block;
+        }
+
+        .brand-short {
+          display: none;
+        }
+
+        .nav-btn {
+          width: 100%;
+          justify-content: flex-start;
+          padding: 12px 16px;
+          font-size: 1.4rem;
+        }
+
+        /* Ajusta o main para a nova largura da sidebar */
+        main.main {
+          width: calc(100% - 180px - var(--right-w));
+          margin-left: 180px;
+        }
+      }
+
+      /* Para telas médias (tablets landscape) */
+      @media (min-width: 1025px) and (max-width: 1199px) {
+        .sidebar {
+          width: 90px;
+        }
+
+        .brand-short {
+          display: block;
+          font-size: 2rem;
+        }
+
+        .brand-full {
+          display: none;
+        }
+
+        main.main {
+          width: calc(100% - 90px - var(--right-w));
+          margin-left: 90px;
+        }
+      }
+
+      /* Tablet / smaller desktops: hide right panel and expand main to full width minus sidebar */
+      @media (max-width: 1024px) {
+        main.main {
+          width: calc(100% - var(--sidebar-w));
+          margin-right: 0;
+          padding: 24px;
+        }
+        .right {
+          display: none;
+        }
+      }
+
+      /* Para telas entre 769px e 1024px (tablets portrait) */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .sidebar {
+          width: 80px;
+        }
+
+        .brand-short {
+          display: block;
+          font-size: 2rem;
+        }
+
+        .brand-full {
+          display: none;
+        }
+
+        main.main {
+          width: calc(100% - 80px);
+          margin-right: 0;
+        }
+      }
+
+      /* Mobile: hide right AND collapse sidebar */
+      @media (max-width: 768px) {
+        .sidebar {
+          position: fixed;
+          left: -100%;
+          top: 0;
+          bottom: 0;
+          width: var(--sidebar-w);
+          transition: left 0.3s ease;
+          z-index: 100;
+        }
+
+        .sidebar.mobile-open {
+          left: 0;
+        }
+
+        .mobile-toggle {
+          display: block;
+        }
+
+        /* Ajusta o main para ocupar toda a largura */
+        main.main {
+          width: 100%;
+          margin-left: 0;
+          padding: 18px 14px 80px; /* padding bottom para o footer fixo */
+        }
+
+        .trilha {
+          width: 92%;
+        }
+        .connector {
+          display: none;
+        }
+        .trilha .node {
+          width: 100%;
+          justify-content: flex-start;
+          gap: 12px;
+          transform: none;
+        }
+        .trilha .node:nth-child(n) {
+          transform: none;
+        }
+        .hex-wrap {
+          width: 86px;
+          height: 86px;
+        }
+        .hex {
+          width: 68px;
+          height: 68px;
+        }
+        .progress-ring {
+          width: 98px;
+          height: 98px;
+          top: -5px;
+          left: -5px;
+        }
+        .node-btn {
+          padding: 6px 10px;
+          font-size: 0.85rem;
+        }
+        .actions-center {
+          grid-template-columns: repeat(4, 56px);
+          gap: 18px;
+          margin-top: 18px;
+        }
+
+        /* Footer fixo apenas em mobile */
+        footer {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          transform: none;
+          width: 100%;
+          max-width: none;
+          margin: 0;
+          padding: 8px 12px;
+          border-top: 1px solid rgba(255, 255, 255, 0.02);
+          background: var(--bg);
+        }
+      }
+
+      /* Mobile pequeno */
+      @media (max-width: 480px) {
+        .banner {
+          flex-direction: column;
+          text-align: center;
+          gap: 8px;
+        }
+
+        .titulo-modulo {
+          font-size: 1.8rem;
+        }
+
+        footer button {
+          height: 44px;
+          font-size: 18px;
+        }
+
+        .actions-center {
+          grid-template-columns: repeat(4, 50px);
+          gap: 12px;
+        }
+
+        .btn-round {
+          width: 50px;
+          height: 50px;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Keyboard focus improvements */
+      .hex:focus {
+        box-shadow: 0 12px 30px rgba(17, 131, 255, 0.16);
+        transform: translateY(-6px) rotateX(6deg);
+      }
+      .node-btn:focus {
+        outline: 2px solid rgba(17, 131, 255, 0.18);
+        outline-offset: 2px;
+      }
+
+      button:focus-visible {
+        outline: 2px solid var(--azul);
+        outline-offset: 2px;
+      }
+
+      :root {
+        --bg: #0f1115;
+        --panel: #171a21;
+        --panel-2: #10131a;
+        --line: #242a36;
+        --text: #e6e8ee;
+        --muted: #98a2b3;
+        --brand: #1183ff;
+        --accent: #c77716;
+        --success: #4ade80;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        --radius: 14px;
+      }
+
+      /* ===== RIGHT PANEL NOVO ===== */
+      .right {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 24px;
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        bottom: 24px;
+        width: 380px;
+        overflow: auto;
+        z-index: 50;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .card h3 {
+        margin: 0 0 6px;
+        font-size: 18px;
+        color: var(--text);
+      }
+
+      .pro-box {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 8px 0 14px;
+      }
+
+      .pro-ill {
+        width: 84px;
+        height: 64px;
+        border-radius: 12px;
+        background: radial-gradient(
+            35px 35px at 70% 30%,
+            #b9e6ff 0%,
+            transparent 60%
+          ),
+          linear-gradient(135deg, #1b6cff, #23b4ff);
+        box-shadow: 0 6px 18px rgba(35, 180, 255, 0.35);
+      }
+
+      .btn-pro {
+        display: inline-block;
+        background: var(--accent);
+        padding: 10px 16px;
+        border-radius: 12px;
+        color: #1b0f02;
+        text-decoration: none;
+        font-weight: 900;
+        box-shadow: inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-pro:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(199, 119, 22, 0.3),
+          inset 0 -3px 8px rgba(0, 0, 0, 0.25);
+      }
+
+      .progress {
+        height: 8px;
+        background: #0d1220;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .progress > i {
+        display: block;
+        height: 100%;
+        width: 40%;
+        background: linear-gradient(90deg, #2f8afc, #66a6ff);
+        transition: width 0.3s ease;
+      }
+
+      .rows {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.9rem;
+        color: var(--muted);
+        transition: color 0.2s ease;
+      }
+
+      .row:hover {
+        color: var(--text);
+      }
+
+      .row b {
+        margin-left: auto;
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .pill {
+        display: inline-grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        transition: all 0.2s ease;
+      }
+
+      .pill:hover {
+        background: var(--panel);
+        transform: scale(1.05);
+      }
+
+      /* Animações para quando desbloquear */
+      .row.unlocked .pill {
+        background: linear-gradient(135deg, #4ade80, #22c55e);
+        color: #000;
+      }
+
+      .row.unlocked {
+        color: var(--text);
+      }
+
+      /* Responsividade do Right Panel */
+      @media (max-width: 1024px) {
+        .right {
+          display: none; /* Esconde em tablets */
+        }
+      }
+
+      @media (min-width: 1025px) and (max-width: 1300px) {
+        .right {
+          width: 340px;
+          padding: 20px;
+        }
+
+        .card {
+          padding: 16px;
+        }
+      }
+
+      /* Scrollbar customizada */
+      .right::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .right::-webkit-scrollbar-track {
+        background: var(--panel-2);
+        border-radius: 3px;
+      }
+
+      .right::-webkit-scrollbar-thumb {
+        background: var(--line);
+        border-radius: 3px;
+      }
+
+      .right::-webkit-scrollbar-thumb:hover {
+        background: var(--muted);
+      }
+
+      :root {
+        --bg: #0f1115;
+        --panel: #171a21;
+        --panel-2: #10131a;
+        --line: #242a36;
+        --text: #e6e8ee;
+        --muted: #98a2b3;
+        --brand: #1183ff;
+        --accent: #c77716;
+        --success: #4ade80;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        --radius: 14px;
+      }
+
+      /* ===== SIDEBAR NOVA (APENAS TELAS INTEIRAS) ===== */
+
+      /* Oculta por padrão em todas as telas */
+      .sidebar-full {
+        display: none;
+      }
+
+      /* Mostra apenas em telas grandes (1200px+) */
+      @media (min-width: 1200px) {
+        .sidebar-full {
+          display: flex;
+          flex-direction: column;
+          background: var(--panel);
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          box-shadow: var(--shadow);
+          padding: 18px 14px;
+          position: fixed;
+          top: 24px;
+          left: 24px;
+          bottom: 24px;
+          width: 270px;
+          z-index: 60;
+          gap: 18px;
+          animation: slideInLeft 0.5s ease-out;
+        }
+
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 8px 10px;
+        }
+
+        .brand .logo {
+          width: 34px;
+          height: 34px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, #3db4ff, #6ae9ff);
+          display: grid;
+          place-items: center;
+          font-weight: 900;
+          color: #0b1220;
+          box-shadow: 0 6px 16px rgba(17, 131, 255, 0.35);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .brand .logo::after {
+          content: "";
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent
+          );
+          transform: rotate(45deg);
+          animation: shine 3s infinite;
+        }
+
+        .brand b {
+          font-size: 22px;
+          letter-spacing: 0.5px;
+          color: var(--text);
+        }
+
+        .nav {
+          margin-top: 6px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .nav a {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 12px;
+          border-radius: 12px;
+          color: var(--text);
+          text-decoration: none;
+          border: 1px solid transparent;
+          transition: all 0.2s ease;
+        }
+
+        .nav a .ico {
+          width: 28px;
+          height: 28px;
+          display: grid;
+          place-items: center;
+          border-radius: 8px;
+          background: var(--panel-2);
+          border: 1px solid var(--line);
+          font-size: 14px;
+        }
+
+        .nav a.active {
+          background: linear-gradient(180deg, #19202b, #131822);
+          border-color: var(--line);
+        }
+
+        .nav a:hover {
+          background: #151a23;
+          transform: translateX(4px);
+        }
+
+        .nav a:hover .ico {
+          background: var(--brand);
+          color: white;
+        }
+
+        /* Animações */
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes shine {
+          0% {
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+          }
+          100% {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
+          }
+        }
+      }
+
+      /* Ajuste para telas muito grandes (1440px+) */
+      @media (min-width: 1440px) {
+        .sidebar-full {
+          width: 280px;
+          padding: 20px 16px;
+        }
+
+        .nav a {
+          padding: 14px 16px;
+        }
+
+        .brand b {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <!-- Botão hamburger para mobile -->
+      <button class="mobile-toggle" aria-label="Abrir menu">☰</button>
+
+      <!-- Sidebar -->
+      <!-- Sidebar Nova (visível apenas em telas grandes) -->
+      <aside class="sidebar-full">
+        <div class="brand">
+          <div class="logo">Z</div>
+          <b>ZulCode</b>
         </div>
-      </div>
+        <nav class="nav">
+          <a class="active" href="#"><span class="ico">🛤️</span> Jornada</a>
+          <a href="#"><span class="ico">🧩</span> Desafio Diário</a>
+          <a href="#"><span class="ico">🎯</span> Metas</a>
+          <a href="#"><span class="ico">🏆</span> Tabela de Líderes</a>
+          <a href="#"><span class="ico">🛒</span> Loja</a>
+          <a href="#"><span class="ico">👤</span> Perfil</a>
+          <a href="#"><span class="ico">⚙️</span> Mais</a>
+        </nav>
+      </aside>
 
-      <div class="card">
-        <h3>Metas Diárias <a href="#" class="link-light">Ver</a></h3>
-        <div class="rows">
-          <div class="row">Completar 4 exercícios <b>0/4</b></div>
-          <div class="progress"><i style="width:6%"></i></div>
-          <div class="row">Resolver 3 desafios na primeira tentativa <b>0/3</b></div>
-          <div class="progress"><i style="width:0%"></i></div>
-          <div class="row">Ganhar 95 XP <b>0/95</b></div>
-          <div class="progress"><i style="width:0%"></i></div>
+      <!-- Right Panel Novo -->
+      <aside class="right" aria-label="Painel direito">
+        <div class="card">
+          <h3>Obter mais</h3>
+          <div class="pro-box">
+            <div class="pro-ill"></div>
+            <p style="margin: 0; color: var(--muted)">
+              Desbloqueie experiência de aprendizado aprimorada e ilimitada!
+            </p>
+          </div>
+          <a class="btn-pro" href="#">SER PRO</a>
         </div>
-      </div>
-    </aside>
-  </main>
 
-  <!-- ===== Modal pequeno (para o troféu e nós) ===== -->
-  <div class="modal" id="miniModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
-    <div class="modal-box">
-      <button class="modal-close" aria-label="Fechar">✕</button>
-      <h4 id="modalTitle">Aula</h4>
-      <p class="modal-sub">Pronto para começar?</p>
-      <a href="aula.html" class="btn btn-primary modal-cta">COMEÇAR</a>
+        <div class="card">
+          <h3>Tabela de Líderes</h3>
+          <div class="rows">
+            <div class="row">
+              <span class="pill">🔒</span> Alcance 100 XP para desbloquear
+              <b>Ver</b>
+            </div>
+            <div class="progress"><i></i></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Metas Diárias</h3>
+          <div class="rows">
+            <div class="row">
+              Resolver 3 desafios na primeira tentativa <b>0/3</b>
+            </div>
+            <div class="progress"><i style="width: 0%"></i></div>
+            <div class="row">Ganhar 95 XP <b>0/95</b></div>
+            <div class="progress"><i style="width: 0%"></i></div>
+            <div class="row">Completar 4 lições <b>0/4</b></div>
+            <div class="progress"><i style="width: 0%"></i></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="main" id="mainContent">
+        <div class="banner" role="region" aria-label="Progresso da unidade">
+          <div class="banner-info">
+            <span class="section">SEÇÃO 1 • UNIDADE 1</span>
+            <span class="title" id="banner-title">HTML Básico</span>
+          </div>
+          <div class="banner-icon" id="banner-list" title="Lista de aulas">
+            ≡
+          </div>
+        </div>
+
+        <section class="module" aria-labelledby="modTitle">
+          <h2 id="modTitle" class="titulo-modulo">HTML Básico</h2>
+
+          <div class="roadmap-wrap" aria-hidden="false">
+            <div class="trilha" role="list">
+              <div class="connector" aria-hidden="true"></div>
+
+              <div
+                class="node"
+                role="listitem"
+                data-title="O que é HTML?"
+                data-link="aula1.html"
+              >
+                <div class="hex-wrap">
+                  <svg
+                    class="progress-ring"
+                    viewBox="0 0 120 120"
+                    aria-hidden="true"
+                  >
+                    <circle class="track" cx="60" cy="60" r="48"></circle>
+                    <circle
+                      class="progress"
+                      cx="60"
+                      cy="60"
+                      r="48"
+                      stroke-dasharray="302.0"
+                      stroke-dashoffset="302.0"
+                    ></circle>
+                  </svg>
+                  <button
+                    class="hex"
+                    aria-label="O que é HTML? - abrir"
+                    data-start-text="COMEÇAR"
+                  ></button>
+                </div>
+                <button
+                  class="node-btn"
+                  data-action="open"
+                  aria-haspopup="dialog"
+                >
+                  COMEÇAR
+                </button>
+                <div class="tooltip" role="status">O que é HTML?</div>
+              </div>
+
+              <div
+                class="node"
+                role="listitem"
+                data-title="Tags e Estrutura"
+                data-link="aula2.html"
+              >
+                <div class="hex-wrap">
+                  <svg
+                    class="progress-ring"
+                    viewBox="0 0 120 120"
+                    aria-hidden="true"
+                  >
+                    <circle class="track" cx="60" cy="60" r="48"></circle>
+                    <circle
+                      class="progress"
+                      cx="60"
+                      cy="60"
+                      r="48"
+                      stroke-dasharray="302.0"
+                      stroke-dashoffset="180.0"
+                    ></circle>
+                  </svg>
+                  <button
+                    class="hex"
+                    aria-label="Tags e Estrutura - abrir"
+                    data-start-text="CONTINUAR"
+                  ></button>
+                </div>
+                <button
+                  class="node-btn"
+                  data-action="open"
+                  aria-haspopup="dialog"
+                >
+                  CONTINUAR
+                </button>
+                <div class="tooltip">Tags e Estrutura</div>
+              </div>
+
+              <div
+                class="node"
+                role="listitem"
+                data-title="Atributos e Links"
+                data-link="aula3.html"
+              >
+                <div class="hex-wrap">
+                  <svg
+                    class="progress-ring"
+                    viewBox="0 0 120 120"
+                    aria-hidden="true"
+                  >
+                    <circle class="track" cx="60" cy="60" r="48"></circle>
+                    <circle
+                      class="progress"
+                      cx="60"
+                      cy="60"
+                      r="48"
+                      stroke-dasharray="302.0"
+                      stroke-dashoffset="240.0"
+                    ></circle>
+                  </svg>
+                  <button
+                    class="hex"
+                    aria-label="Atributos e Links - abrir"
+                    data-start-text="PRATICAR"
+                  ></button>
+                </div>
+                <button
+                  class="node-btn"
+                  data-action="open"
+                  aria-haspopup="dialog"
+                >
+                  PRATICAR
+                </button>
+                <div class="tooltip">Atributos e Links</div>
+              </div>
+
+              <div
+                class="node"
+                role="listitem"
+                data-title="Imagens e Listas"
+                data-link="aula4.html"
+              >
+                <div class="hex-wrap">
+                  <svg
+                    class="progress-ring"
+                    viewBox="0 0 120 120"
+                    aria-hidden="true"
+                  >
+                    <circle class="track" cx="60" cy="60" r="48"></circle>
+                    <circle
+                      class="progress"
+                      cx="60"
+                      cy="60"
+                      r="48"
+                      stroke-dasharray="302.0"
+                      stroke-dashoffset="270.0"
+                    ></circle>
+                  </svg>
+                  <button
+                    class="hex"
+                    aria-label="Imagens e Listas - abrir"
+                    data-start-text="EXERCÍCIOS"
+                  ></button>
+                </div>
+                <button
+                  class="node-btn"
+                  data-action="open"
+                  aria-haspopup="dialog"
+                >
+                  EXERCÍCIOS
+                </button>
+                <div class="tooltip">Imagens e Listas</div>
+              </div>
+
+              <div
+                class="node"
+                role="presentation"
+                aria-hidden="true"
+                style="transform: none"
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    align-items: center;
+                    margin-top: 6px;
+                  "
+                >
+                  <span
+                    style="
+                      width: 8px;
+                      height: 8px;
+                      background: var(--borda);
+                      border-radius: 50%;
+                      display: block;
+                    "
+                  ></span>
+                  <span
+                    style="
+                      width: 8px;
+                      height: 8px;
+                      background: var(--borda);
+                      border-radius: 50%;
+                      display: block;
+                    "
+                  ></span>
+                  <span
+                    style="
+                      width: 8px;
+                      height: 8px;
+                      background: var(--borda);
+                      border-radius: 50%;
+                      display: block;
+                    "
+                  ></span>
+                </div>
+              </div>
+
+              <div
+                class="node node--trophy"
+                role="listitem"
+                data-title="Conquista do Capítulo"
+                data-link="trofeu.html"
+              >
+                <div class="hex-wrap">
+                  <svg
+                    class="progress-ring"
+                    viewBox="0 0 120 120"
+                    aria-hidden="true"
+                  >
+                    <circle class="track" cx="60" cy="60" r="48"></circle>
+                    <circle
+                      class="progress"
+                      cx="60"
+                      cy="60"
+                      r="48"
+                      stroke-dasharray="302.0"
+                      stroke-dashoffset="40.0"
+                    ></circle>
+                  </svg>
+                  <button
+                    class="hex"
+                    aria-label="Conquista do Capítulo - abrir"
+                    data-start-text="VER"
+                  ></button>
+                </div>
+                <button
+                  class="node-btn"
+                  data-action="open"
+                  aria-haspopup="dialog"
+                >
+                  🏆
+                </button>
+                <div class="tooltip">Conquista</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div style="height: 600px; width: 100%"></div>
+      </main>
     </div>
-  </div>
 
-  <!-- ===== (PARTE 2 trará o <style> e o <script>) ===== -->
-</body>
+    <footer aria-label="Navegação inferior">
+      <button class="active" aria-label="Home">🏠</button>
+      <button aria-label="Língua">🛡️</button>
+      <button aria-label="Escudo">🛡️</button>
+      <button aria-label="Baú">🛡️</button>
+      <button aria-label="Loja">🛡️</button>
+      <button aria-label="Perfil">👤</button>
+    </footer>
+
+    <!-- Modal -->
+    <div
+      id="miniModal"
+      class="modal"
+      hidden
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="modal-box" role="document">
+        <button class="modal-close" aria-label="Fechar modal">✖</button>
+        <h2 id="modalTitle" style="margin-top: 4px">Título</h2>
+        <p id="modalDesc" style="color: var(--muted); margin: 10px 0 16px">
+          Descrição da aula e CTA.
+        </p>
+        <a id="modalLink" href="#" class="btn-pro" role="button"
+          >IR PARA A AULA</a
+        >
+      </div>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite">COMEÇAR</div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Toggle do menu mobile
+        const mobileToggle = document.querySelector(".mobile-toggle");
+        const sidebar = document.querySelector(".sidebar");
+
+        mobileToggle.addEventListener("click", () => {
+          sidebar.classList.toggle("mobile-open");
+        });
+
+        // Fechar menu ao clicar fora (apenas mobile)
+        document.addEventListener("click", (e) => {
+          if (window.innerWidth <= 768) {
+            if (
+              !sidebar.contains(e.target) &&
+              !mobileToggle.contains(e.target) &&
+              sidebar.classList.contains("mobile-open")
+            ) {
+              sidebar.classList.remove("mobile-open");
+            }
+          }
+        });
+
+        // Init progress rings
+        document
+          .querySelectorAll(".progress-ring circle.progress")
+          .forEach((circle) => {
+            const r = circle.r.baseVal.value;
+            const c = 2 * Math.PI * r;
+            circle.style.strokeDasharray = `${c} ${c}`;
+            if (!circle.style.strokeDashoffset)
+              circle.style.strokeDashoffset = c;
+            circle.dataset.circum = c;
+          });
+
+        // Node interactions
+        const nodes = document.querySelectorAll(".trilha .node");
+        const toastEl = document.getElementById("toast");
+
+        const showToast = (text) => {
+          toastEl.textContent = text;
+          toastEl.classList.add("show");
+          setTimeout(() => toastEl.classList.remove("show"), 1400);
+        };
+
+        nodes.forEach((node, i) => {
+          const hex = node.querySelector(".hex");
+          const btn = node.querySelector(".node-btn");
+          const title = node.dataset.title || "Aula";
+          const link = node.dataset.link || "#";
+          const startText = hex?.dataset.startText || "COMEÇAR";
+
+          const openModal = () => {
+            const modal = document.getElementById("miniModal");
+            modal.removeAttribute("hidden");
+            modal.setAttribute("aria-hidden", "false");
+            modal.querySelector("#modalTitle").textContent = title;
+            modal.querySelector(
+              "#modalDesc"
+            ).textContent = `Você abriu: ${title}`;
+            modal.querySelector("#modalLink").setAttribute("href", link);
+            setTimeout(() => modal.querySelector(".modal-close").focus(), 70);
+          };
+
+          const activate = (e) => {
+            if (e && e.preventDefault) e.preventDefault();
+            // small press effect
+            hex.classList.add("pressed");
+            setTimeout(() => hex.classList.remove("pressed"), 220);
+            showToast(startText);
+            setTimeout(openModal, 280);
+          };
+
+          if (hex) {
+            hex.setAttribute("tabindex", "0");
+            hex.addEventListener("click", activate);
+            hex.addEventListener("keydown", (ev) => {
+              if (ev.key === "Enter" || ev.key === " ") activate(ev);
+            });
+          }
+          if (btn) btn.addEventListener("click", activate);
+
+          // subtle jitter effect (re-apply transforms cleanly)
+          const seeds = [-6, 10, -4, 8, -2, 6];
+          const tx = seeds[i % seeds.length] || 0;
+          const ty = i % 2 === 0 ? -6 : 6;
+          const baseTransform = `rotate(${tx * 0.6}deg) translateY(${
+            ty * 0.4
+          }px)`;
+          if (hex) hex.style.transform = baseTransform;
+          if (hex) {
+            hex.addEventListener("mouseenter", () => {
+              hex.style.transform = `translateY(-8px) rotate(${
+                tx * 0.4
+              }deg) scale(1.02)`;
+              hex.style.boxShadow = "0 18px 30px rgba(0,0,0,0.55)";
+            });
+            hex.addEventListener("mouseleave", () => {
+              hex.style.transform = baseTransform;
+              hex.style.boxShadow = "";
+            });
+          }
+        });
+
+        // Modal close
+        const modal = document.getElementById("miniModal");
+        modal.addEventListener("click", (e) => {
+          if (
+            e.target === modal ||
+            e.target.classList.contains("modal-close")
+          ) {
+            modal.setAttribute("hidden", "");
+            modal.setAttribute("aria-hidden", "true");
+          }
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            if (!modal.hasAttribute("hidden")) {
+              modal.setAttribute("hidden", "");
+              modal.setAttribute("aria-hidden", "true");
+            }
+          }
+        });
+
+        // Banner title on scroll (same behavior)
+        const bannerTitle = document.getElementById("banner-title");
+        const texts = [
+          "Faça pedido em um café",
+          "Aprenda a cumprimentar",
+          "Pratique seu vocabulário",
+          "Desafios avançados",
+          "Revise suas lições",
+        ];
+        const updateBanner = () => {
+          const scrollPercent =
+            window.scrollY / (document.body.scrollHeight - window.innerHeight);
+          let idx = Math.min(
+            texts.length - 1,
+            Math.floor(scrollPercent * texts.length)
+          );
+          bannerTitle.textContent = texts[idx];
+          // optionally update a ring (demo)
+          const firstProgress = document.querySelector(
+            ".trilha .node:nth-child(1) .progress"
+          );
+          if (firstProgress) {
+            const c = parseFloat(firstProgress.dataset.circum || 302);
+            const percent = (idx + 1) / texts.length;
+            firstProgress.style.strokeDashoffset = (c - percent * c).toString();
+          }
+        };
+        window.addEventListener("scroll", updateBanner, { passive: true });
+        updateBanner();
+
+        // Footer nav active toggle
+        document.querySelectorAll("footer button").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll("footer button")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+          });
+        });
+
+        // Menu lateral interativo
+        document.querySelectorAll(".nav-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            // Remove active de todos os botões
+            document
+              .querySelectorAll(".nav-btn")
+              .forEach((b) => b.classList.remove("active"));
+            // Adiciona active no botão clicado
+            this.classList.add("active");
+
+            const buttonText = this.getAttribute("title") || "Página";
+            showToast(`Navegando para: ${buttonText}`);
+
+            // Fecha menu mobile após clicar
+            if (window.innerWidth <= 768) {
+              sidebar.classList.remove("mobile-open");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
